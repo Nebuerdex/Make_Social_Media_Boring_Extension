@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Make Social Media Boring</title>
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Make Social Media Boring</h1>
+      <p class="sub">Popularity is a negative signal.</p>
+    </header>
+
+    <label class="debug-row">
+      <input type="checkbox" id="debugLogging" />
+      <span>Debug logging</span>
+    </label>
+
+    <section class="block">
+      <h2>Sites</h2>
+      <form id="sites-form" class="settings sites"></form>
+    </section>
+
+    <section class="block">
+      <h2>Dullness</h2>
+      <form id="settings-form" class="settings"></form>
+    </section>
+
+    <footer>
+      <span
+        >Reload a tab after enabling a new site. Reddit has the deepest
+        pipeline; others use the shared platform adapter.</span
+      >
+    </footer>
+
+    <script type="module" src="popup.js"></script>
+  </body>
+</html>

@@ -1,0 +1,66 @@
+/**
+ * Host CSS gated by html.dataset / classes set by the content pipeline.
+ * Prefer collapsing (display:none + zero box) over leaving empty holes.
+ */
+
+.msmb-media-hide,
+.msmb-filter-hide {
+  display: none !important;
+  height: 0 !important;
+  max-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  border: 0 !important;
+}
+
+html.msmb-compact shreddit-post,
+html.msmb-compact .thing.link {
+  min-height: 0 !important;
+}
+
+/* Light-DOM media collapse when compact + ready (complements shadow CSS) */
+html[data-msmb-hide-images="1"] shreddit-aspect-ratio,
+html[data-msmb-hide-images="1"] gallery-carousel,
+html[data-msmb-hide-videos="1"] shreddit-player,
+html[data-msmb-hide-videos="1"] video {
+  display: none !important;
+  height: 0 !important;
+  max-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+}
+
+html.msmb-hide-awards award-button,
+html.msmb-hide-awards shreddit-awards,
+html.msmb-hide-awards .awardings-bar,
+html.msmb-hide-awards [aria-label*="award" i] {
+  display: none !important;
+  height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+html.msmb-hide-sidebars #right-sidebar-container,
+html.msmb-hide-sidebars aside[aria-label],
+html.msmb-hide-sidebars .side,
+html.msmb-hide-sidebars [data-testid="frontpage-sidebar"] {
+  display: none !important;
+}
+
+html.msmb-hide-trending [aria-label*="trending" i],
+html.msmb-hide-trending [aria-label*="Trending" i] {
+  display: none !important;
+}
+
+html.msmb-hide-recommendations [aria-label*="Because you" i],
+html.msmb-hide-recommendations [aria-label*="recommended" i],
+html.msmb-hide-recommendations [aria-label*="Suggested" i] {
+  display: none !important;
+}
+
+html.msmb-hide-profile-cards faceplate-hovercard,
+html.msmb-hide-profile-cards [data-testid="profile-card"] {
+  display: none !important;
+}

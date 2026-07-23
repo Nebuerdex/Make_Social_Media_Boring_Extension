@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Support · Make Social Media Boring</title>
+    <meta
+      name="description"
+      content="Support the Make Social Media Boring extension — keep the anti-algorithm tools free and maintained."
+    />
+    <link rel="icon" href="favicon.png" type="image/png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Newsreader:opsz,wght@6..72,500;6..72,600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="grain" aria-hidden="true"></div>
+
+    <main class="stage">
+      <p class="brand">Make Social Media Boring</p>
+
+      <img
+        class="mark"
+        src="icon.png"
+        width="160"
+        height="160"
+        alt="Make Social Media Boring icon"
+      />
+
+      <h1>Keep the feed dull.</h1>
+      <p class="lede">
+        The extension stays free. Donations cover hosting, store fees, and the
+        unglamorous work of chasing every site redesign.
+      </p>
+
+      <div class="actions" id="donate-actions">
+        <!-- Filled by config.js -->
+      </div>
+
+      <p class="note" id="setup-note" hidden>
+        Donation links aren’t configured yet. Edit
+        <code>website/config.js</code> with your PayPal, Ko-fi, or Stripe URL.
+      </p>
+    </main>
+
+    <footer>
+      <a href="https://chrome.google.com/webstore" id="store-link" hidden
+        >Get the extension</a
+      >
+      <span class="sep" id="store-sep" hidden>·</span>
+      <span>Thanks for helping keep social media boring.</span>
+    </footer>
+
+    <script src="config.js"></script>
+    <script src="page.js"></script>
+  </body>
+</html>

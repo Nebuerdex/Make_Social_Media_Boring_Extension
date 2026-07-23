@@ -1,0 +1,224 @@
+/**
+ * Shared hide helpers + per-platform chrome selectors.
+ * Gated by html.msmb-* classes and data-msmb-site.
+ */
+
+.msmb-filter-hide,
+.msmb-media-hide {
+  display: none !important;
+  height: 0 !important;
+  max-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  border: 0 !important;
+}
+
+.msmb-feed-reverse {
+  display: flex !important;
+  flex-direction: column-reverse !important;
+}
+
+html.msmb-reverse-feed [data-testid="primaryColumn"] section,
+html.msmb-reverse-feed ytd-rich-grid-renderer #contents,
+html.msmb-reverse-feed [role="feed"] {
+  display: flex !important;
+  flex-direction: column-reverse !important;
+}
+
+/* ---- Media (all platforms) ---- */
+html.msmb-hide-images img:not([data-msmb-keep]),
+html.msmb-hide-images picture,
+html.msmb-hide-images [data-testid="tweetPhoto"],
+html.msmb-hide-images [data-testid="card.layoutLarge.media"],
+html.msmb-hide-images ytd-thumbnail,
+html.msmb-hide-images #thumbnail,
+html.msmb-hide-images article img {
+  display: none !important;
+  height: 0 !important;
+  max-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+}
+
+html.msmb-hide-videos video,
+html.msmb-hide-videos [data-testid="videoComponent"],
+html.msmb-hide-videos [data-testid="videoPlayer"],
+html.msmb-hide-videos ytd-player,
+html.msmb-hide-videos ytd-reel-video-renderer,
+html.msmb-hide-videos ytd-shorts,
+html.msmb-hide-videos iframe[src*="youtube"],
+html.msmb-hide-videos iframe[src*="youtu.be"] {
+  display: none !important;
+  height: 0 !important;
+  max-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+}
+
+html.msmb-hide-avatars img[alt*="avatar" i],
+html.msmb-hide-avatars [data-testid="Tweet-User-Avatar"],
+html.msmb-hide-avatars #avatar-link,
+html.msmb-hide-avatars .EntityPhoto-circle-3,
+html.msmb-hide-avatars .ivm-view-attr__img--centered {
+  display: none !important;
+}
+
+html.msmb-compact * {
+  scroll-margin: 0 !important;
+}
+
+/* ---- X / Twitter ---- */
+html[data-msmb-site="twitter"].msmb-hide-sidebars [data-testid="sidebarColumn"],
+html[data-msmb-site="twitter"].msmb-hide-trending [data-testid="sidebarColumn"],
+html[data-msmb-site="twitter"].msmb-hide-recommendations [data-testid="sidebarColumn"],
+html[data-msmb-site="twitter"].msmb-hide-promoted [data-testid="placementTracking"],
+html[data-msmb-site="twitter"].msmb-hide-profile-cards [data-testid="HoverCard"] {
+  display: none !important;
+}
+
+/* ---- YouTube ---- */
+html[data-msmb-site="youtube"].msmb-hide-sidebars #secondary,
+html[data-msmb-site="youtube"].msmb-hide-sidebars ytd-guide-renderer,
+html[data-msmb-site="youtube"].msmb-hide-recommendations ytd-watch-next-secondary-results-renderer,
+html[data-msmb-site="youtube"].msmb-hide-recommendations ytd-reel-shelf-renderer,
+html[data-msmb-site="youtube"].msmb-hide-promoted ytd-ad-slot-renderer,
+html[data-msmb-site="youtube"].msmb-hide-promoted ytd-promoted-sparkles-web-renderer,
+html[data-msmb-site="youtube"].msmb-hide-promoted ytd-in-feed-ad-layout-renderer,
+html[data-msmb-site="youtube"].msmb-hide-videos ytd-rich-item-renderer:has(a[href*="/shorts/"]),
+html[data-msmb-site="youtube"].msmb-hide-videos ytd-reel-item-renderer {
+  display: none !important;
+}
+
+/* ---- Instagram ---- */
+html[data-msmb-site="instagram"].msmb-hide-videos video {
+  display: none !important;
+  height: 0 !important;
+}
+
+/* ---- TikTok ---- */
+html[data-msmb-site="tiktok"].msmb-hide-videos video,
+html[data-msmb-site="tiktok"].msmb-hide-recommendations [data-e2e="suggest-accounts"],
+html[data-msmb-site="tiktok"].msmb-hide-sidebars [data-e2e="landing-nav"] {
+  display: none !important;
+}
+
+/* ---- Facebook ---- */
+html[data-msmb-site="facebook"].msmb-hide-sidebars [role="complementary"],
+html[data-msmb-site="facebook"].msmb-hide-sidebars [data-pagelet*="RightRail"],
+html[data-msmb-site="facebook"].msmb-hide-videos video,
+html[data-msmb-site="facebook"].msmb-hide-promoted [aria-label*="Sponsored" i] {
+  display: none !important;
+}
+
+/* ---- LinkedIn ---- */
+html[data-msmb-site="linkedin"].msmb-hide-sidebars .scaffold-layout__aside,
+html[data-msmb-site="linkedin"].msmb-hide-sidebars aside,
+html[data-msmb-site="linkedin"].msmb-hide-trending .feed-shared-news-module,
+html[data-msmb-site="linkedin"].msmb-hide-recommendations .feed-shared-follow-recommendation,
+html[data-msmb-site="linkedin"].msmb-hide-images .feed-shared-image,
+html[data-msmb-site="linkedin"].msmb-hide-videos .feed-shared-linkedin-video,
+html[data-msmb-site="linkedin"].msmb-hide-videos video {
+  display: none !important;
+}
+
+/* ---- Threads ---- */
+html[data-msmb-site="threads"].msmb-hide-images img,
+html[data-msmb-site="threads"].msmb-hide-videos video {
+  display: none !important;
+  height: 0 !important;
+  margin: 0 !important;
+}
+
+/* ---- Pinterest ---- */
+html[data-msmb-site="pinterest"].msmb-hide-images img,
+html[data-msmb-site="pinterest"].msmb-hide-videos video,
+html[data-msmb-site="pinterest"].msmb-hide-sidebars aside,
+html[data-msmb-site="pinterest"].msmb-hide-promoted [data-test-id="ad-badge"] {
+  display: none !important;
+}
+
+/* ---- Bluesky ---- */
+html[data-msmb-site="bluesky"].msmb-hide-images img,
+html[data-msmb-site="bluesky"].msmb-hide-videos video,
+html[data-msmb-site="bluesky"].msmb-hide-sidebars aside {
+  display: none !important;
+}
+
+/* ---- 9GAG ---- */
+html[data-msmb-site="ninegag"].msmb-hide-images img,
+html[data-msmb-site="ninegag"].msmb-hide-videos video,
+html[data-msmb-site="ninegag"].msmb-hide-sidebars .sidebar,
+html[data-msmb-site="ninegag"].msmb-hide-promoted .ad-container {
+  display: none !important;
+}
+
+/* ---- iFunny ---- */
+html[data-msmb-site="ifunny"].msmb-hide-images img,
+html[data-msmb-site="ifunny"].msmb-hide-videos video {
+  display: none !important;
+}
+
+/* ---- Imgur ---- */
+html[data-msmb-site="imgur"].msmb-hide-images img,
+html[data-msmb-site="imgur"].msmb-hide-videos video,
+html[data-msmb-site="imgur"].msmb-hide-sidebars aside {
+  display: none !important;
+}
+
+/* ---- Lemon8 ---- */
+html[data-msmb-site="lemon8"].msmb-hide-images img,
+html[data-msmb-site="lemon8"].msmb-hide-videos video {
+  display: none !important;
+}
+
+/* ---- Xiaohongshu ---- */
+html[data-msmb-site="xiaohongshu"].msmb-hide-images img,
+html[data-msmb-site="xiaohongshu"].msmb-hide-videos video {
+  display: none !important;
+}
+
+/* ---- Douyin ---- */
+html[data-msmb-site="douyin"].msmb-hide-videos video,
+html[data-msmb-site="douyin"].msmb-hide-images img {
+  display: none !important;
+}
+
+/* ---- Weibo ---- */
+html[data-msmb-site="weibo"].msmb-hide-images img,
+html[data-msmb-site="weibo"].msmb-hide-videos video,
+html[data-msmb-site="weibo"].msmb-hide-sidebars aside {
+  display: none !important;
+}
+
+/* ---- Bilibili ---- */
+html[data-msmb-site="bilibili"].msmb-hide-images img,
+html[data-msmb-site="bilibili"].msmb-hide-videos video,
+html[data-msmb-site="bilibili"].msmb-hide-recommendations .recommend-container,
+html[data-msmb-site="bilibili"].msmb-hide-promoted .ad-report {
+  display: none !important;
+}
+
+/* ---- VK ---- */
+html[data-msmb-site="vk"].msmb-hide-images img,
+html[data-msmb-site="vk"].msmb-hide-videos video,
+html[data-msmb-site="vk"].msmb-hide-sidebars #side_bar,
+html[data-msmb-site="vk"].msmb-hide-promoted .ads_ad_box {
+  display: none !important;
+}
+
+/* ---- Tumblr ---- */
+html[data-msmb-site="tumblr"].msmb-hide-images img,
+html[data-msmb-site="tumblr"].msmb-hide-videos video,
+html[data-msmb-site="tumblr"].msmb-hide-sidebars aside {
+  display: none !important;
+}
+
+/* ---- Flickr ---- */
+html[data-msmb-site="flickr"].msmb-hide-images img,
+html[data-msmb-site="flickr"].msmb-hide-videos video,
+html[data-msmb-site="flickr"].msmb-hide-sidebars aside {
+  display: none !important;
+}

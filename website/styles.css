@@ -146,6 +146,32 @@ h1 {
   color: var(--ink);
 }
 
+.about {
+  margin: 40px auto 0;
+  padding-top: 32px;
+  border-top: 1px solid var(--line);
+  max-width: 40ch;
+  animation: rise 700ms ease-out 240ms both;
+}
+
+.portrait {
+  display: block;
+  width: 96px;
+  height: 96px;
+  margin: 0 auto 16px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center top;
+  box-shadow: 0 0 0 1px var(--line);
+}
+
+.about-copy {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
 footer {
   position: relative;
   z-index: 1;

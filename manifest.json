@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "Make Social Media Boring",
-  "version": "1.3.2",
-  "description": "Strip the dopamine from social media. Popularity becomes a negative signal across 21 platforms.",
+  "version": "1.4.0",
+  "description": "Strip the dopamine from social media. Popularity becomes a negative signal across Reddit, X, YouTube, and more.",
   "permissions": ["storage"],
   "host_permissions": [
     "*://*.reddit.com/*",

@@ -63,7 +63,6 @@ body {
   margin: 0 auto 28px;
   border-radius: 28px;
   image-rendering: auto;
-  box-shadow: 0 0 0 1px var(--line);
   animation: rise 700ms ease-out both;
 }
 

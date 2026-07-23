@@ -1,8 +1,9 @@
 /**
- * Donation page config.
+ * Site config.
  */
 window.DONATE_CONFIG = {
   chromeStoreUrl: "",
+  feedbackEmail: "reubenh.1996@gmail.com",
 
   methods: [
     {

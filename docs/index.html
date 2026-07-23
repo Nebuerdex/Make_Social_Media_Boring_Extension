@@ -65,14 +65,53 @@
       <section class="feedback">
         <h2>Bugs, ideas, feelings</h2>
         <p>
-          Found a problem? Got a thought? Hate it in a useful way? Email me —
-          I read them.
+          Found a problem? Got a thought? Hate it in a useful way? Write it
+          below and it goes straight to my inbox.
         </p>
-        <a
-          class="btn btn-secondary"
-          href="mailto:reubenh.1996@gmail.com?subject=Make%20Social%20Media%20Boring%20feedback"
-          >reubenh.1996@gmail.com</a
-        >
+
+        <form class="feedback-form" id="feedback-form" novalidate>
+          <label class="field">
+            <span>Name <em>(optional)</em></span>
+            <input type="text" name="name" autocomplete="name" maxlength="120" />
+          </label>
+
+          <label class="field">
+            <span>Your email <em>(optional, if you want a reply)</em></span>
+            <input
+              type="email"
+              name="email"
+              autocomplete="email"
+              maxlength="200"
+              inputmode="email"
+            />
+          </label>
+
+          <label class="field">
+            <span>Message</span>
+            <textarea
+              name="message"
+              rows="5"
+              required
+              maxlength="4000"
+              placeholder="Bug report, idea, or feeling…"
+            ></textarea>
+          </label>
+
+          <!-- Honeypot for bots -->
+          <input
+            type="text"
+            name="_honey"
+            class="hp"
+            tabindex="-1"
+            autocomplete="off"
+            aria-hidden="true"
+          />
+
+          <button type="submit" class="btn btn-secondary" id="feedback-submit">
+            Send feedback
+          </button>
+          <p class="feedback-status" id="feedback-status" hidden></p>
+        </form>
       </section>
     </main>
 

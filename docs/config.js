@@ -6,9 +6,9 @@ window.DONATE_CONFIG = {
 
   methods: [
     {
-      id: "stripe",
-      label: "Donate",
-      href: "https://buy.stripe.com/aFa7sN7cE17WahP9ciak000",
+      id: "paypal",
+      label: "Donate with PayPal",
+      href: "https://paypal.me/ReubenHayward",
       primary: true,
     },
   ],

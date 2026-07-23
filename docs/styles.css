@@ -70,9 +70,10 @@ h1 {
   margin: 0 0 14px;
   font-family: "Newsreader", Georgia, serif;
   font-weight: 600;
-  font-size: clamp(2.2rem, 6vw, 3.2rem);
+  font-size: clamp(1.5rem, 5vw, 3.2rem);
   line-height: 1.05;
   letter-spacing: -0.02em;
+  white-space: nowrap;
   animation: rise 700ms ease-out 60ms both;
 }
 

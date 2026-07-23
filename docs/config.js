@@ -8,7 +8,7 @@ window.DONATE_CONFIG = {
   methods: [
     {
       id: "paypal",
-      label: "Donate with PayPal",
+      label: "Support Me",
       href: "https://paypal.me/ReubenHayward",
       primary: true,
     },

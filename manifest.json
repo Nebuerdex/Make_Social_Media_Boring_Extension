@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "Make Social Media Boring",
-  "version": "1.4.0",
-  "description": "Strip the dopamine from social media. Popularity becomes a negative signal across Reddit, X, YouTube, and more.",
+  "version": "1.4.1",
+  "description": "Makes social media less stimulating by removing highly engaging content — without blocking the sites.",
   "permissions": ["storage"],
   "host_permissions": [
     "*://*.reddit.com/*",

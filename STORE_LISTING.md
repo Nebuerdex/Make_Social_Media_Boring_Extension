@@ -2,32 +2,29 @@
 
 Paste these into the Developer Dashboard when you publish.
 
+## Name
+Make Social Media Boring
+
 ## Short description (≤132 characters)
 
 ```
-Strip the dopamine from social media. Popularity becomes a negative signal across Reddit, X, YouTube, and more.
+Makes social media pages less stimulating — without blocking the sites entirely.
 ```
 
 ## Detailed description
 
 ```
-Make Social Media Boring turns engagement-maximizing feeds into something quieter and more usable.
+Rather than block or limit access to social websites, this extension limits what you see on them by removing the most stimulating content.
 
-What it does
-• Treats popularity as a negative signal — overlooked posts rise first
-• Hides images, videos, ads, and recommendation chrome (toggleable)
-• Works across many platforms: Reddit, X, Instagram, Facebook, YouTube, TikTok, Threads, Pinterest, LinkedIn, Bluesky, and more
-• Settings sync via Chrome
+It doesn’t try to force anyone stuck in an addictive cycle to go cold turkey and stop opening those pages altogether — that can be an unrealistic goal. It lets you have the satisfaction of opening the fridge, but removes the sugary sweets.
 
-Philosophy
-Social apps rank content by what keeps you scrolling. This extension flips that — so ignored discussions, quieter posts, and less flashy media get a fairer shot at your attention.
+Toggle what gets dulled in the popup. Settings sync with Chrome.
 
-Privacy
-Processing happens locally in your browser. We don’t sell your data. Privacy policy: https://nebuerdex.github.io/Make_Social_Media_Boring_Extension/privacy.html
-
-Support / bugs
+Support / bugs / donations:
 https://nebuerdex.github.io/Make_Social_Media_Boring_Extension/
-reubenh.1996@gmail.com
+
+Privacy policy:
+https://nebuerdex.github.io/Make_Social_Media_Boring_Extension/privacy.html
 ```
 
 ## Category
@@ -39,16 +36,22 @@ English
 ## Privacy policy URL
 https://nebuerdex.github.io/Make_Social_Media_Boring_Extension/privacy.html
 
-## Single purpose description (required by Chrome)
+## Single purpose description
 
 ```
-Reduce addictive engagement patterns on social media sites by hiding stimulating media and deprioritizing highly popular content.
+Make social media less stimulating by removing highly engaging content from supported sites.
 ```
 
 ## Permission justifications
 
 **storage**
-Saves user preferences (which filters are enabled) using chrome.storage.sync.
+Used to save your on/off preferences so the extension remembers how you configured it.
 
 **Host permissions (social sites)**
-Needed to read and modify the page DOM on supported social networks so filters, media hiding, and reordering can run. No page content is sent to remote servers by the extension.
+Required to change how supported social media pages look in your browser (hide media, ads, and re-order content). Page content is not uploaded to our servers.
+
+## Privacy practices note
+
+```
+This extension does not collect or sell your personal data. The only thing stored is your settings (via Chrome storage) so preferences can sync between your devices.
+```

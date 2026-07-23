@@ -47,14 +47,16 @@
   });
 
   // src/shared/constants.js
-  var STORAGE_KEYS, SCHEMA_VERSION, LOG_NAMESPACES, SITE_DEFINITIONS2, SITE_IDS, SETTING_DEFINITIONS, SETTING_KEYS;
+  var SITE_URL, SITE_SETTINGS_URL, STORAGE_KEYS, SCHEMA_VERSION, LOG_NAMESPACES, SITE_DEFINITIONS2, SITE_IDS, SETTING_DEFINITIONS, SETTING_KEYS;
   var init_constants = __esm({
     "src/shared/constants.js"() {
       init_siteDefinitions();
+      SITE_URL = "https://nebuerdex.github.io/Make_Social_Media_Boring_Extension/";
+      SITE_SETTINGS_URL = `${SITE_URL}#settings`;
       STORAGE_KEYS = Object.freeze({
         ROOT: "msmb"
       });
-      SCHEMA_VERSION = 3;
+      SCHEMA_VERSION = 4;
       LOG_NAMESPACES = Object.freeze({
         BACKGROUND: "Background",
         SETTINGS: "Settings",
@@ -155,6 +157,40 @@
     }
     return settings;
   }
+  function packSettings(settings) {
+    let bits = 0;
+    SETTING_KEYS.forEach((key, i) => {
+      if (settings?.[key] !== false) bits |= 1 << i;
+    });
+    return bits;
+  }
+  function unpackSettings(value) {
+    const settings = createDefaultSettings();
+    if (typeof value === "number" && Number.isFinite(value)) {
+      SETTING_KEYS.forEach((key, i) => {
+        settings[key] = Boolean(value & 1 << i);
+      });
+      return settings;
+    }
+    if (value && typeof value === "object") {
+      const incoming = (
+        /** @type {Record<string, unknown>} */
+        value
+      );
+      for (const key of SETTING_KEYS) {
+        if (key in incoming) settings[key] = Boolean(incoming[key]);
+      }
+    }
+    return settings;
+  }
+  function createDefaultSettingsBySite() {
+    const packed = packSettings(createDefaultSettings());
+    const settingsBySite = {};
+    for (const id of SITE_IDS) {
+      settingsBySite[id] = packed;
+    }
+    return settingsBySite;
+  }
   function createDefaultEnabledSites() {
     const enabledSites = {};
     for (const id of SITE_IDS) {
@@ -166,9 +202,13 @@
     return {
       schemaVersion: SCHEMA_VERSION,
       debugLogging: false,
-      settings: createDefaultSettings(),
+      settingsBySite: createDefaultSettingsBySite(),
       enabledSites: createDefaultEnabledSites()
     };
+  }
+  function getSettingsForSite(root, siteId) {
+    const packed = root?.settingsBySite?.[siteId];
+    return unpackSettings(packed);
   }
   var init_config = __esm({
     "src/shared/config.js"() {
@@ -183,20 +223,32 @@
       return defaults;
     }
     const incoming = (
-      /** @type {Partial<RootDocument>} */
+      /** @type {Record<string, unknown>} */
       value
     );
-    const settings = {
-      ...defaults.settings,
-      ...incoming.settings && typeof incoming.settings === "object" ? incoming.settings : {}
-    };
-    for (const key of Object.keys(settings)) {
-      if (!(key in defaults.settings)) delete settings[key];
-      else settings[key] = Boolean(settings[key]);
+    let settingsBySite = createDefaultSettingsBySite();
+    if (incoming.settingsBySite && typeof incoming.settingsBySite === "object") {
+      const rawMap = (
+        /** @type {Record<string, unknown>} */
+        incoming.settingsBySite
+      );
+      for (const id of SITE_IDS) {
+        if (rawMap[id] !== void 0) {
+          settingsBySite[id] = packSettings(unpackSettings(rawMap[id]));
+        }
+      }
+    } else if (incoming.settings && typeof incoming.settings === "object") {
+      const shared = packSettings(unpackSettings(incoming.settings));
+      for (const id of SITE_IDS) {
+        settingsBySite[id] = shared;
+      }
     }
     const enabledSites = {
       ...defaults.enabledSites,
-      ...incoming.enabledSites && typeof incoming.enabledSites === "object" ? incoming.enabledSites : {}
+      ...incoming.enabledSites && typeof incoming.enabledSites === "object" ? (
+        /** @type {Record<string, boolean>} */
+        incoming.enabledSites
+      ) : {}
     };
     for (const key of Object.keys(enabledSites)) {
       if (!SITE_IDS.includes(key)) delete enabledSites[key];
@@ -208,7 +260,7 @@
     return {
       schemaVersion: SCHEMA_VERSION,
       debugLogging: Boolean(incoming.debugLogging),
-      settings,
+      settingsBySite,
       enabledSites
     };
   }
@@ -223,15 +275,20 @@
         raw.sites.reddit || {}
       );
       const root = createDefaultRoot();
+      const settings = createDefaultSettings();
       if (typeof reddit.reverseFeed === "boolean") {
-        root.settings.reversePostOrder = reddit.reverseFeed;
+        settings.reversePostOrder = reddit.reverseFeed;
       }
       if (typeof reddit.hideAwards === "boolean") {
-        root.settings.hideAwards = reddit.hideAwards;
+        settings.hideAwards = reddit.hideAwards;
       }
       if (reddit.textOnlyPosts === true) {
-        root.settings.hideImages = true;
-        root.settings.hideVideos = true;
+        settings.hideImages = true;
+        settings.hideVideos = true;
+      }
+      const packed = packSettings(settings);
+      for (const id of SITE_IDS) {
+        root.settingsBySite[id] = packed;
       }
       if (reddit.enabled === false) {
         root.enabledSites.reddit = false;
@@ -261,9 +318,13 @@
         onError(err);
       }
     }
-    async function updateSettings(patch) {
+    async function updateSettingsForSite(siteId, patch) {
       const current = await readRoot();
-      current.settings = { ...current.settings, ...patch };
+      const next = { ...getSettingsForSite(current, siteId), ...patch };
+      current.settingsBySite = {
+        ...current.settingsBySite,
+        [siteId]: packSettings(next)
+      };
       await writeRoot(current);
       return current;
     }
@@ -276,7 +337,7 @@
       chrome.storage.onChanged.addListener(handler);
       return () => chrome.storage.onChanged.removeListener(handler);
     }
-    return { readRoot, writeRoot, updateSettings, subscribe };
+    return { readRoot, writeRoot, updateSettingsForSite, subscribe };
   }
   var init_storage = __esm({
     "src/shared/storage.js"() {
@@ -2053,6 +2114,7 @@
   // src/content/main.js
   var require_main = __commonJS({
     "src/content/main.js"() {
+      init_config();
       init_constants();
       init_storage();
       init_logger();
@@ -2076,7 +2138,7 @@
           }
           const listeners = [];
           const destroy = adapter.mount({
-            settings: root.settings,
+            settings: getSettingsForSite(root, adapter.id),
             debugLogging: root.debugLogging,
             onChange: (cb) => {
               listeners.push(cb);
@@ -2096,9 +2158,10 @@
               }
               return;
             }
+            const settings = getSettingsForSite(next, adapter.id);
             for (const cb of listeners) {
               try {
-                cb({ settings: next.settings, debugLogging: next.debugLogging });
+                cb({ settings, debugLogging: next.debugLogging });
               } catch (err) {
                 log10.error("Settings listener failed", err);
               }

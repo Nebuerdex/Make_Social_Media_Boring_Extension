@@ -7,6 +7,10 @@ import {
   createDefaultEnabledSites,
   createDefaultRoot,
   createDefaultSettings,
+  createDefaultSettingsBySite,
+  getSettingsForSite,
+  packSettings,
+  unpackSettings,
 } from "./config.js";
 import { SCHEMA_VERSION, SITE_IDS, STORAGE_KEYS } from "./constants.js";
 
@@ -24,23 +28,32 @@ export function normalizeRoot(value) {
     return defaults;
   }
 
-  const incoming = /** @type {Partial<RootDocument>} */ (value);
+  const incoming = /** @type {Record<string, unknown>} */ (value);
 
-  const settings = {
-    ...defaults.settings,
-    ...(incoming.settings && typeof incoming.settings === "object"
-      ? incoming.settings
-      : {}),
-  };
-  for (const key of Object.keys(settings)) {
-    if (!(key in defaults.settings)) delete settings[key];
-    else settings[key] = Boolean(settings[key]);
+  /** @type {Record<string, number>} */
+  let settingsBySite = createDefaultSettingsBySite();
+
+  if (incoming.settingsBySite && typeof incoming.settingsBySite === "object") {
+    const rawMap = /** @type {Record<string, unknown>} */ (
+      incoming.settingsBySite
+    );
+    for (const id of SITE_IDS) {
+      if (rawMap[id] !== undefined) {
+        settingsBySite[id] = packSettings(unpackSettings(rawMap[id]));
+      }
+    }
+  } else if (incoming.settings && typeof incoming.settings === "object") {
+    // Schema ≤3: one global settings object → copy onto every site.
+    const shared = packSettings(unpackSettings(incoming.settings));
+    for (const id of SITE_IDS) {
+      settingsBySite[id] = shared;
+    }
   }
 
   const enabledSites = {
     ...defaults.enabledSites,
     ...(incoming.enabledSites && typeof incoming.enabledSites === "object"
-      ? incoming.enabledSites
+      ? /** @type {Record<string, boolean>} */ (incoming.enabledSites)
       : {}),
   };
   for (const key of Object.keys(enabledSites)) {
@@ -54,7 +67,7 @@ export function normalizeRoot(value) {
   return {
     schemaVersion: SCHEMA_VERSION,
     debugLogging: Boolean(incoming.debugLogging),
-    settings,
+    settingsBySite,
     enabledSites,
   };
 }
@@ -74,15 +87,20 @@ export function migrateRawStorage(raw) {
       /** @type {Record<string, unknown>} */ (raw.sites).reddit || {}
     );
     const root = createDefaultRoot();
+    const settings = createDefaultSettings();
     if (typeof reddit.reverseFeed === "boolean") {
-      root.settings.reversePostOrder = reddit.reverseFeed;
+      settings.reversePostOrder = reddit.reverseFeed;
     }
     if (typeof reddit.hideAwards === "boolean") {
-      root.settings.hideAwards = reddit.hideAwards;
+      settings.hideAwards = reddit.hideAwards;
     }
     if (reddit.textOnlyPosts === true) {
-      root.settings.hideImages = true;
-      root.settings.hideVideos = true;
+      settings.hideImages = true;
+      settings.hideVideos = true;
+    }
+    const packed = packSettings(settings);
+    for (const id of SITE_IDS) {
+      root.settingsBySite[id] = packed;
     }
     if (reddit.enabled === false) {
       root.enabledSites.reddit = false;
@@ -123,11 +141,16 @@ export function createStorage(hooks = {}) {
   }
 
   /**
-   * @param {Partial<RootDocument["settings"]>} patch
+   * @param {string} siteId
+   * @param {Partial<Record<string, boolean>>} patch
    */
-  async function updateSettings(patch) {
+  async function updateSettingsForSite(siteId, patch) {
     const current = await readRoot();
-    current.settings = { ...current.settings, ...patch };
+    const next = { ...getSettingsForSite(current, siteId), ...patch };
+    current.settingsBySite = {
+      ...current.settingsBySite,
+      [siteId]: packSettings(next),
+    };
     await writeRoot(current);
     return current;
   }
@@ -146,7 +169,13 @@ export function createStorage(hooks = {}) {
     return () => chrome.storage.onChanged.removeListener(handler);
   }
 
-  return { readRoot, writeRoot, updateSettings, subscribe };
+  return { readRoot, writeRoot, updateSettingsForSite, subscribe };
 }
 
-export { createDefaultSettings, createDefaultEnabledSites };
+export {
+  createDefaultSettings,
+  createDefaultEnabledSites,
+  getSettingsForSite,
+  packSettings,
+  unpackSettings,
+};

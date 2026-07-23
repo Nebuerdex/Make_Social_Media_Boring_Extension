@@ -3,6 +3,7 @@
  * @module content/main
  */
 
+import { getSettingsForSite } from "../shared/config.js";
 import { LOG_NAMESPACES } from "../shared/constants.js";
 import { createStorage } from "../shared/storage.js";
 import { createLogger, setLoggingEnabled } from "../utilities/logger.js";
@@ -34,7 +35,7 @@ async function bootstrap() {
     const listeners = [];
 
     const destroy = adapter.mount({
-      settings: root.settings,
+      settings: getSettingsForSite(root, adapter.id),
       debugLogging: root.debugLogging,
       onChange: (cb) => {
         listeners.push(cb);
@@ -56,9 +57,10 @@ async function bootstrap() {
         }
         return;
       }
+      const settings = getSettingsForSite(next, adapter.id);
       for (const cb of listeners) {
         try {
-          cb({ settings: next.settings, debugLogging: next.debugLogging });
+          cb({ settings, debugLogging: next.debugLogging });
         } catch (err) {
           log.error("Settings listener failed", err);
         }

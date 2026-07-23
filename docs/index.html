@@ -3,10 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Support · Make Social Media Boring</title>
+    <title>Make Social Media Boring</title>
     <meta
       name="description"
-      content="Makes social media pages less stimulating — without blocking the sites entirely. Support the project here."
+      content="Makes social media pages less stimulating — without blocking the sites entirely. Support the project and manage settings here."
     />
     <link rel="icon" href="favicon.png" type="image/png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -20,7 +20,24 @@
   <body>
     <div class="grain" aria-hidden="true"></div>
 
-    <main class="stage">
+    <header class="topbar">
+      <a class="topbar-brand" href="#support">
+        <img
+          class="topbar-logo"
+          src="icon.png"
+          width="36"
+          height="36"
+          alt=""
+        />
+        <span>Make Social Media Boring</span>
+      </a>
+      <nav class="topbar-nav" aria-label="Site">
+        <a href="#support" data-nav="support">Support</a>
+        <a href="#settings" data-nav="settings">Settings</a>
+      </nav>
+    </header>
+
+    <main class="stage" id="view-support">
       <img
         class="mark"
         src="icon.png"
@@ -112,6 +129,51 @@
       </section>
     </main>
 
+    <main class="stage stage-settings" id="view-settings" hidden>
+      <header class="settings-hero">
+        <img
+          class="mark mark-sm"
+          src="icon.png"
+          width="96"
+          height="96"
+          alt="Make Social Media Boring icon"
+        />
+        <h1>Settings</h1>
+        <p class="lede">
+          Per-site options. Requires the Chrome extension to be installed.
+        </p>
+      </header>
+
+      <p class="note" id="settings-status" data-state="pending">
+        Connecting to the extension…
+      </p>
+
+      <div class="settings-shell" id="settings-shell" hidden>
+        <aside class="settings-nav" aria-label="Sites">
+          <nav id="site-nav" class="site-nav"></nav>
+        </aside>
+
+        <section class="settings-panel">
+          <header class="panel-head">
+            <div>
+              <h2 id="site-title">Site</h2>
+              <p class="hosts" id="site-hosts"></p>
+            </div>
+            <label class="enable-row">
+              <input type="checkbox" id="site-enabled" />
+              <span>Enable on this site</span>
+            </label>
+          </header>
+
+          <form id="settings-form" class="settings-form"></form>
+          <p class="hint-foot">
+            Changes save instantly. Reload open tabs after turning a site on or
+            off.
+          </p>
+        </section>
+      </div>
+    </main>
+
     <footer>
       <a href="https://chrome.google.com/webstore" id="store-link" hidden
         >Get the extension</a
@@ -124,5 +186,6 @@
 
     <script src="config.js"></script>
     <script src="page.js"></script>
+    <script src="settings.js"></script>
   </body>
 </html>

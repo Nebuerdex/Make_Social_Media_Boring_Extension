@@ -1,12 +1,13 @@
 /**
- * Popup settings UI — global dullness + per-site enable toggles.
+ * Popup — quick site toggles + link to the public settings page.
  * @module popup/popup
  */
 
 import {
   LOG_NAMESPACES,
-  SETTING_DEFINITIONS,
   SITE_DEFINITIONS,
+  SITE_SETTINGS_URL,
+  SITE_URL,
 } from "../shared/constants.js";
 import { createStorage } from "../shared/storage.js";
 import { createLogger, setLoggingEnabled } from "../utilities/logger.js";
@@ -16,34 +17,17 @@ const storage = createStorage({
   onError: (err) => log.error("Storage failure", err),
 });
 
-const form = document.getElementById("settings-form");
 const sitesForm = document.getElementById("sites-form");
-const debugEl = document.getElementById("debugLogging");
+const debugEl = /** @type {HTMLInputElement} */ (
+  document.getElementById("debugLogging")
+);
 
-function renderSettings() {
-  const frag = document.createDocumentFragment();
-  for (const def of SETTING_DEFINITIONS) {
-    const label = document.createElement("label");
-    label.className = "setting";
-    label.htmlFor = def.key;
+function openSettingsPage() {
+  chrome.tabs.create({ url: SITE_SETTINGS_URL });
+}
 
-    const input = document.createElement("input");
-    input.type = "checkbox";
-    input.id = def.key;
-    input.name = def.key;
-
-    const title = document.createElement("span");
-    title.className = "label";
-    title.textContent = def.label;
-
-    const hint = document.createElement("span");
-    hint.className = "hint";
-    hint.textContent = def.description;
-
-    label.append(input, title, hint);
-    frag.append(label);
-  }
-  form.replaceChildren(frag);
+function openSupportPage() {
+  chrome.tabs.create({ url: SITE_URL });
 }
 
 function renderSites() {
@@ -79,11 +63,6 @@ function syncForm(root) {
   setLoggingEnabled(root.debugLogging);
   debugEl.checked = root.debugLogging;
 
-  for (const def of SETTING_DEFINITIONS) {
-    const input = document.getElementById(def.key);
-    if (input) input.checked = Boolean(root.settings[def.key]);
-  }
-
   for (const site of SITE_DEFINITIONS) {
     const input = /** @type {HTMLInputElement | null} */ (
       document.getElementById(`site-${site.id}`)
@@ -96,15 +75,6 @@ function syncForm(root) {
 
 async function persistFromForm() {
   /** @type {Record<string, boolean>} */
-  const settings = {};
-  for (const def of SETTING_DEFINITIONS) {
-    const input = /** @type {HTMLInputElement | null} */ (
-      document.getElementById(def.key)
-    );
-    if (input) settings[def.key] = input.checked;
-  }
-
-  /** @type {Record<string, boolean>} */
   const enabledSites = {};
   for (const site of SITE_DEFINITIONS) {
     const input = /** @type {HTMLInputElement | null} */ (
@@ -115,15 +85,19 @@ async function persistFromForm() {
 
   const current = await storage.readRoot();
   current.debugLogging = debugEl.checked;
-  current.settings = { ...current.settings, ...settings };
   current.enabledSites = { ...current.enabledSites, ...enabledSites };
   await storage.writeRoot(current);
   setLoggingEnabled(current.debugLogging);
-  log.info("Settings saved.");
+  log.info("Popup settings saved.");
 }
 
 renderSites();
-renderSettings();
+
+document.getElementById("open-settings")?.addEventListener("click", openSettingsPage);
+document
+  .getElementById("open-settings-link")
+  ?.addEventListener("click", openSettingsPage);
+document.querySelector(".popup-logo")?.addEventListener("click", openSupportPage);
 
 storage
   .readRoot()

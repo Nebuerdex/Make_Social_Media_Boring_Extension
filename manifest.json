@@ -1,9 +1,13 @@
 {
   "manifest_version": 3,
   "name": "Make Social Media Boring",
-  "version": "1.4.1",
+  "version": "1.5.1",
   "description": "Makes social media less stimulating by removing highly engaging content — without blocking the sites.",
   "permissions": ["storage"],
+  "options_ui": {
+    "page": "src/options/options.html",
+    "open_in_tab": true
+  },
   "host_permissions": [
     "*://*.reddit.com/*",
     "*://reddit.com/*",
@@ -142,6 +146,14 @@
       "js": ["dist/content.js"],
       "css": ["src/content/host.css", "src/content/platforms.css"],
       "run_at": "document_idle"
+    },
+    {
+      "matches": [
+        "https://nebuerdex.github.io/Make_Social_Media_Boring_Extension/*",
+        "https://nebuerdex.github.io/Make_Social_Media_Boring_Extension/"
+      ],
+      "js": ["src/content/siteBridge.js"],
+      "run_at": "document_start"
     }
   ]
 }

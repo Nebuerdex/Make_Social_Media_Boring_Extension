@@ -7,12 +7,18 @@ import { SITE_DEFINITIONS as SITES } from "./siteDefinitions.js";
 
 export const EXTENSION_NAME = "Make Social Media Boring";
 
+/** Public site (support + settings). Cog and options open this. */
+export const SITE_URL =
+  "https://nebuerdex.github.io/Make_Social_Media_Boring_Extension/";
+
+export const SITE_SETTINGS_URL = `${SITE_URL}#settings`;
+
 export const STORAGE_KEYS = Object.freeze({
   ROOT: "msmb",
 });
 
 /** Bump when the persisted document shape changes; run a migrator. */
-export const SCHEMA_VERSION = 3;
+export const SCHEMA_VERSION = 4;
 
 export const LOG_NAMESPACES = Object.freeze({
   BACKGROUND: "Background",
@@ -32,7 +38,7 @@ export const SITE_DEFINITIONS = SITES;
 export const SITE_IDS = Object.freeze(SITE_DEFINITIONS.map((s) => s.id));
 
 /**
- * Feature flags shown in the popup and consumed by site adapters.
+ * Feature flags shown on the options page and consumed by site adapters.
  */
 export const SETTING_DEFINITIONS = Object.freeze([
   {

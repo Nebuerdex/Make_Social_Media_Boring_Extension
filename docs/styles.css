@@ -171,6 +171,35 @@ h1 {
   color: var(--muted);
 }
 
+.feedback {
+  margin: 36px auto 0;
+  padding-top: 28px;
+  border-top: 1px solid var(--line);
+  max-width: 40ch;
+  animation: rise 700ms ease-out 300ms both;
+}
+
+.feedback h2 {
+  margin: 0 0 10px;
+  font-family: "Newsreader", Georgia, serif;
+  font-size: 1.35rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.feedback p {
+  margin: 0 0 16px;
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--muted);
+}
+
+.feedback .btn {
+  width: 100%;
+  font-size: 13px;
+  word-break: break-all;
+}
+
 footer {
   position: relative;
   z-index: 1;
